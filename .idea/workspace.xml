@@ -4,7 +4,24 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c72f4cc1-4d1f-48a8-a8e7-68f92a71b883" name="Changes" comment="initialize project structure with essential configurations and entities" />
+    <list default="true" id="c72f4cc1-4d1f-48a8-a8e7-68f92a71b883" name="Changes" comment="initialize project structure with essential configurations and entities">
+      <change afterPath="$PROJECT_DIR$/docs/GAP_ANALYSIS.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/filae/api/application/controller/AuthController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/filae/api/application/controller/EstablishmentController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/filae/api/application/controller/QueueController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/filae/api/domain/service/AuthService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/filae/api/domain/service/EstablishmentService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/filae/api/domain/service/QueueService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/filae/api/domain/service/UserService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/filae/api/infrastructure/security/CustomUserDetailsService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/filae/api/infrastructure/security/JwtAuthenticationFilter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/filae/api/infrastructure/security/JwtTokenProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/filae/api/application/dto/auth/RegisterRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/filae/api/application/dto/auth/RegisterRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/filae/api/domain/repository/EstablishmentRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/filae/api/domain/repository/EstablishmentRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/filae/api/domain/repository/QueueRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/filae/api/domain/repository/QueueRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/filae/api/infrastructure/security/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/filae/api/infrastructure/security/SecurityConfig.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -18,7 +35,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="main" />
+        <entry key="$PROJECT_DIR$" value="initial-commit" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -54,7 +71,7 @@
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
-    "git-widget-placeholder": "initial-commit",
+    "git-widget-placeholder": "feature/sprint1-implementation",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
     "node.js.detected.package.eslint": "true",
@@ -110,7 +127,7 @@
       <workItem from="1771010514428" duration="10408000" />
       <workItem from="1771028556004" duration="978000" />
       <workItem from="1771030322331" duration="130000" />
-      <workItem from="1771040932070" duration="3969000" />
+      <workItem from="1771040932070" duration="4556000" />
     </task>
     <task id="LOCAL-00001" summary="initialize project structure with essential configurations and entities">
       <option name="closed" value="true" />

@@ -20,9 +20,15 @@ public interface QueueRepository extends JpaRepository<Queue, Long> {
 
     Optional<Queue> findByTicketNumber(String ticketNumber);
 
+    List<Queue> findByEstablishmentIdAndStatusOrderByPositionAsc(Long establishmentId, QueueStatus status);
+
     List<Queue> findByEstablishmentIdAndStatusOrderByPosition(Long establishmentId, QueueStatus status);
 
     Page<Queue> findByUserIdOrderByJoinedAtDesc(Long userId, Pageable pageable);
+
+    List<Queue> findByUserIdOrderByCreatedAtDesc(Long userId);
+
+    Optional<Queue> findByUserIdAndEstablishmentIdAndStatus(Long userId, Long establishmentId, QueueStatus status);
 
     @Query("SELECT q FROM Queue q WHERE q.user.id = :userId AND q.status = :status")
     List<Queue> findActiveQueuesByUserId(@Param("userId") Long userId, @Param("status") QueueStatus status);
@@ -35,4 +41,3 @@ public interface QueueRepository extends JpaRepository<Queue, Long> {
 
     boolean existsByUserIdAndEstablishmentIdAndStatusIn(Long userId, Long establishmentId, List<QueueStatus> statuses);
 }
-
