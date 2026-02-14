@@ -41,6 +41,9 @@ public class SecurityConfig {
                 .requestMatchers("/api/auth/**", "/auth/**").permitAll()
                 .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html").permitAll()
 
+                // Protected endpoints - authentication required
+                .requestMatchers("/api/health/stats", "/health/stats").authenticated()
+
                 // All other endpoints require authentication
                 .anyRequest().authenticated()
             )

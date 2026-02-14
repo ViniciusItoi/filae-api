@@ -1,8 +1,8 @@
 {
 	"info": {
-		"_postman_id": "filae-api-collection-sprint1",
-		"name": "Filae API - Sprint 1 (Complete)",
-		"description": "Complete REST API collection for Filae - Virtual Queue Management System\n\n**Base URL:** http://localhost:8080/api\n\n**Authentication:** Most endpoints require JWT Bearer token\n\n**Workflow:**\n1. Register a user (POST /auth/register)\n2. Login to get JWT token (POST /auth/login)\n3. Create an establishment (POST /establishments)\n4. Join a queue (POST /queues/join)\n5. Check queue status (GET /queues/{id})\n6. Call next customer (PUT /queues/establishment/{id}/call-next)\n\n**Note:** Replace {{token}} with actual JWT token from login response",
+		"_postman_id": "filae-api-collection-sprint2-complete",
+		"name": "Filae API - Sprint 2 (Complete with Real Data)",
+		"description": "Complete REST API collection for Filae - Virtual Queue Management System\n\n**Base URL:** http://localhost:8080/api\n\n**Version:** Sprint 2 - Complete with Migration Data\n\n**Test Users (Password: SecurePass123!):**\n- alice@example.com (ID: 1, CUSTOMER)\n- bob@example.com (ID: 2, CUSTOMER)\n- carol@example.com (ID: 3, CUSTOMER)\n- tony@tonysrestaurant.com (ID: 4, MERCHANT)\n- maria@mariacafe.com (ID: 5, MERCHANT)\n- admin@filae.com (ID: 6, ADMIN)\n\n**Test Data Included:**\n- 5 Establishments (1-5)\n- 6 Users (1-6)\n- 7 Queue Entries (1-7)\n- 5 Notifications (1-5)\n- 11 Favorites\n\n**Workflow:**\n1. Login to get JWT token\n2. Browse establishments\n3. View favorites\n4. Check notifications\n5. Join/manage queues\n6. Manage profile",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"version": "2.0.0"
 	},
@@ -16,557 +16,431 @@
 			"key": "token",
 			"value": "",
 			"type": "string",
-			"description": "JWT Bearer Token - populated after login"
-		},
-		{
-			"key": "userId",
-			"value": "1",
-			"type": "string"
-		},
-		{
-			"key": "establishmentId",
-			"value": "1",
-			"type": "string"
-		},
-		{
-			"key": "queueId",
-			"value": "1",
-			"type": "string"
+			"description": "JWT Bearer Token - auto-set after login"
 		}
 	],
 	"item": [
 		{
-			"name": "1. Health Check",
+			"name": "0. HEALTH & SYSTEM",
 			"item": [
 				{
-					"name": "Health Check (No Auth)",
+					"name": "Health Check",
 					"request": {
-						"auth": {
-							"type": "noauth"
-						},
+						"auth": {"type": "noauth"},
 						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/health",
-							"host": ["{{baseUrl}}"],
-							"path": ["health"]
-						},
-						"description": "Check if API is running - No authentication required"
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "2. Authentication",
-			"item": [
-				{
-					"name": "Register User",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"if (pm.response.code === 201) {",
-									"    var jsonData = pm.response.json();",
-									"    pm.environment.set(\"token\", jsonData.token);",
-									"    pm.environment.set(\"userId\", jsonData.userId);",
-									"    console.log(\"✓ User registered. Token saved.\");",
-									"}"
-								]
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"name\": \"John Doe\",\n  \"email\": \"john@example.com\",\n  \"password\": \"SecurePass123!\",\n  \"phone\": \"11999999999\",\n  \"userType\": \"CUSTOMER\"\n}"
-						},
-						"url": {
-							"raw": "{{baseUrl}}/auth/register",
-							"host": ["{{baseUrl}}"],
-							"path": ["auth", "register"]
-						},
-						"description": "Register a new user. Returns JWT token on success."
-					},
-					"response": []
+						"url": {"raw": "{{baseUrl}}/health","host": ["{{baseUrl}}"],"path": ["health"]},
+						"description": "No auth required - Tests basic connectivity"
+					}
 				},
 				{
-					"name": "Login User",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"if (pm.response.code === 200) {",
-									"    var jsonData = pm.response.json();",
-									"    pm.environment.set(\"token\", jsonData.token);",
-									"    pm.environment.set(\"userId\", jsonData.userId);",
-									"    console.log(\"✓ Login successful. Token saved.\");",
-									"}"
-								]
-							}
-						}
-					],
+					"name": "System Statistics",
 					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"email\": \"john@example.com\",\n  \"password\": \"SecurePass123!\"\n}"
-						},
-						"url": {
-							"raw": "{{baseUrl}}/auth/login",
-							"host": ["{{baseUrl}}"],
-							"path": ["auth", "login"]
-						},
-						"description": "Login with email and password. Returns JWT token."
-					},
-					"response": []
+						"auth": {"type": "noauth"},
+						"method": "GET",
+						"url": {"raw": "{{baseUrl}}/health/stats","host": ["{{baseUrl}}"],"path": ["health","stats"]},
+						"description": "System stats - Shows: Users, Establishments, Queues, Notifications, Favorites"
+					}
 				}
 			]
 		},
 		{
-			"name": "3. Establishments",
+			"name": "1. AUTHENTICATION",
+			"item": [
+				{
+					"name": "Login - Alice (Customer)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": ["if (pm.response.code === 200) { var jsonData = pm.response.json(); pm.environment.set('token', jsonData.token); console.log('✓ Token saved'); }"]
+							}
+						}
+					],
+					"request": {
+						"auth": {"type": "noauth"},
+						"method": "POST",
+						"header": [{"key": "Content-Type","value": "application/json"}],
+						"body": {"mode": "raw","raw": "{\n  \"email\": \"alice@example.com\",\n  \"password\": \"SecurePass123!\"\n}"},
+						"url": {"raw": "{{baseUrl}}/auth/login","host": ["{{baseUrl}}"],"path": ["auth", "login"]},
+						"description": "ID: 1, Has 2 favorites and 3 unread notifications"
+					}
+				},
+				{
+					"name": "Login - Bob (Customer)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": ["if (pm.response.code === 200) { var jsonData = pm.response.json(); pm.environment.set('token', jsonData.token); console.log('✓ Token saved'); }"]
+							}
+						}
+					],
+					"request": {
+						"auth": {"type": "noauth"},
+						"method": "POST",
+						"header": [{"key": "Content-Type","value": "application/json"}],
+						"body": {"mode": "raw","raw": "{\n  \"email\": \"bob@example.com\",\n  \"password\": \"SecurePass123!\"\n}"},
+						"url": {"raw": "{{baseUrl}}/auth/login","host": ["{{baseUrl}}"],"path": ["auth", "login"]},
+						"description": "ID: 2, Has 2 favorites"
+					}
+				},
+				{
+					"name": "Login - Carol (Customer)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": ["if (pm.response.code === 200) { var jsonData = pm.response.json(); pm.environment.set('token', jsonData.token); console.log('✓ Token saved'); }"]
+							}
+						}
+					],
+					"request": {
+						"auth": {"type": "noauth"},
+						"method": "POST",
+						"header": [{"key": "Content-Type","value": "application/json"}],
+						"body": {"mode": "raw","raw": "{\n  \"email\": \"carol@example.com\",\n  \"password\": \"SecurePass123!\"\n}"},
+						"url": {"raw": "{{baseUrl}}/auth/login","host": ["{{baseUrl}}"],"path": ["auth", "login"]},
+						"description": "ID: 3, In queue (CALLED status)"
+					}
+				},
+				{
+					"name": "Login - Tony (Merchant)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": ["if (pm.response.code === 200) { var jsonData = pm.response.json(); pm.environment.set('token', jsonData.token); console.log('✓ Token saved'); }"]
+							}
+						}
+					],
+					"request": {
+						"auth": {"type": "noauth"},
+						"method": "POST",
+						"header": [{"key": "Content-Type","value": "application/json"}],
+						"body": {"mode": "raw","raw": "{\n  \"email\": \"tony@tonysrestaurant.com\",\n  \"password\": \"SecurePass123!\"\n}"},
+						"url": {"raw": "{{baseUrl}}/auth/login","host": ["{{baseUrl}}"],"path": ["auth", "login"]},
+						"description": "ID: 4, Merchant - Can manage queue"
+					}
+				},
+				{
+					"name": "Login - Maria (Merchant)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": ["if (pm.response.code === 200) { var jsonData = pm.response.json(); pm.environment.set('token', jsonData.token); console.log('✓ Token saved'); }"]
+							}
+						}
+					],
+					"request": {
+						"auth": {"type": "noauth"},
+						"method": "POST",
+						"header": [{"key": "Content-Type","value": "application/json"}],
+						"body": {"mode": "raw","raw": "{\n  \"email\": \"maria@mariacafe.com\",\n  \"password\": \"SecurePass123!\"\n}"},
+						"url": {"raw": "{{baseUrl}}/auth/login","host": ["{{baseUrl}}"],"path": ["auth", "login"]},
+						"description": "ID: 5, Merchant"
+					}
+				},
+				{
+					"name": "Register New User",
+					"request": {
+						"auth": {"type": "noauth"},
+						"method": "POST",
+						"header": [{"key": "Content-Type","value": "application/json"}],
+						"body": {"mode": "raw","raw": "{\n  \"name\": \"New User Test\",\n  \"email\": \"newuser@example.com\",\n  \"password\": \"SecurePass123!\",\n  \"phone\": \"11999999999\",\n  \"userType\": \"CUSTOMER\"\n}"},
+						"url": {"raw": "{{baseUrl}}/auth/register","host": ["{{baseUrl}}"],"path": ["auth", "register"]},
+						"description": "Register a new user"
+					}
+				}
+			]
+		},
+		{
+			"name": "2. USER MANAGEMENT",
+			"item": [
+				{
+					"name": "Get My Profile",
+					"request": {
+						"auth": {"type": "bearer","bearer": [{"key": "token","value": "{{token}}","type": "string"}]},
+						"method": "GET",
+						"url": {"raw": "{{baseUrl}}/users/me","host": ["{{baseUrl}}"],"path": ["users", "me"]}
+					}
+				},
+				{
+					"name": "Get User by ID - Alice (1)",
+					"request": {
+						"auth": {"type": "bearer","bearer": [{"key": "token","value": "{{token}}","type": "string"}]},
+						"method": "GET",
+						"url": {"raw": "{{baseUrl}}/users/1","host": ["{{baseUrl}}"],"path": ["users", "1"]}
+					}
+				},
+				{
+					"name": "Get User by ID - Bob (2)",
+					"request": {
+						"auth": {"type": "bearer","bearer": [{"key": "token","value": "{{token}}","type": "string"}]},
+						"method": "GET",
+						"url": {"raw": "{{baseUrl}}/users/2","host": ["{{baseUrl}}"],"path": ["users", "2"]}
+					}
+				},
+				{
+					"name": "Update My Profile",
+					"request": {
+						"auth": {"type": "bearer","bearer": [{"key": "token","value": "{{token}}","type": "string"}]},
+						"method": "PUT",
+						"header": [{"key": "Content-Type","value": "application/json"}],
+						"body": {"mode": "raw","raw": "{\n  \"name\": \"Alice Updated\",\n  \"phone\": \"11988888888\",\n  \"profilePictureUrl\": \"https://example.com/alice.jpg\"\n}"},
+						"url": {"raw": "{{baseUrl}}/users/me","host": ["{{baseUrl}}"],"path": ["users", "me"]}
+					}
+				},
+				{
+					"name": "Update User by ID",
+					"request": {
+						"auth": {"type": "bearer","bearer": [{"key": "token","value": "{{token}}","type": "string"}]},
+						"method": "PUT",
+						"header": [{"key": "Content-Type","value": "application/json"}],
+						"body": {"mode": "raw","raw": "{\n  \"name\": \"Bob Updated\",\n  \"phone\": \"11977777777\"\n}"},
+						"url": {"raw": "{{baseUrl}}/users/2","host": ["{{baseUrl}}"],"path": ["users", "2"]}
+					}
+				}
+			]
+		},
+		{
+			"name": "3. ESTABLISHMENTS",
 			"item": [
 				{
 					"name": "Get All Establishments",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
+						"auth": {"type": "bearer","bearer": [{"key": "token","value": "{{token}}","type": "string"}]},
 						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/establishments",
-							"host": ["{{baseUrl}}"],
-							"path": ["establishments"]
-						},
-						"description": "List all establishments"
-					},
-					"response": []
+						"url": {"raw": "{{baseUrl}}/establishments","host": ["{{baseUrl}}"],"path": ["establishments"]},
+						"description": "All 5 establishments"
+					}
 				},
 				{
-					"name": "Get Establishments by Category",
+					"name": "Get Establishment #1 - Tony's",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
+						"auth": {"type": "bearer","bearer": [{"key": "token","value": "{{token}}","type": "string"}]},
 						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/establishments?category=restaurant",
-							"host": ["{{baseUrl}}"],
-							"path": ["establishments"],
-							"query": [
-								{
-									"key": "category",
-									"value": "restaurant"
-								}
-							]
-						},
-						"description": "Search establishments by category"
-					},
-					"response": []
+						"url": {"raw": "{{baseUrl}}/establishments/1","host": ["{{baseUrl}}"],"path": ["establishments", "1"]}
+					}
 				},
 				{
-					"name": "Get Establishments by City",
+					"name": "Get Establishment #2 - Maria's",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
+						"auth": {"type": "bearer","bearer": [{"key": "token","value": "{{token}}","type": "string"}]},
 						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/establishments?city=São Paulo",
-							"host": ["{{baseUrl}}"],
-							"path": ["establishments"],
-							"query": [
-								{
-									"key": "city",
-									"value": "São Paulo"
-								}
-							]
-						},
-						"description": "Search establishments by city"
-					},
-					"response": []
+						"url": {"raw": "{{baseUrl}}/establishments/2","host": ["{{baseUrl}}"],"path": ["establishments", "2"]}
+					}
 				},
 				{
-					"name": "Get Establishment by ID",
+					"name": "Get Establishment #3 - Fast Burgers",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
+						"auth": {"type": "bearer","bearer": [{"key": "token","value": "{{token}}","type": "string"}]},
 						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/establishments/{{establishmentId}}",
-							"host": ["{{baseUrl}}"],
-							"path": ["establishments", "{{establishmentId}}"]
-						},
-						"description": "Get establishment details by ID"
-					},
-					"response": []
+						"url": {"raw": "{{baseUrl}}/establishments/3","host": ["{{baseUrl}}"],"path": ["establishments", "3"]}
+					}
 				},
 				{
-					"name": "Create Establishment",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"if (pm.response.code === 201) {",
-									"    var jsonData = pm.response.json();",
-									"    pm.environment.set(\"establishmentId\", jsonData.id);",
-									"    console.log(\"✓ Establishment created. ID: \" + jsonData.id);",
-									"}"
-								]
-							}
-						}
-					],
+					"name": "Get Establishment #4 - Barber Shop",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"name\": \"Tony's Restaurant\",\n  \"description\": \"Italian cuisine restaurant\",\n  \"category\": \"restaurant\",\n  \"address\": \"Rua Augusta, 1500\",\n  \"city\": \"São Paulo\",\n  \"state\": \"SP\",\n  \"phoneNumber\": \"1133334444\",\n  \"isAcceptingCustomers\": true,\n  \"queueEnabled\": true\n}"
-						},
-						"url": {
-							"raw": "{{baseUrl}}/establishments",
-							"host": ["{{baseUrl}}"],
-							"path": ["establishments"]
-						},
-						"description": "Create a new establishment (Merchant)"
-					},
-					"response": []
+						"auth": {"type": "bearer","bearer": [{"key": "token","value": "{{token}}","type": "string"}]},
+						"method": "GET",
+						"url": {"raw": "{{baseUrl}}/establishments/4","host": ["{{baseUrl}}"],"path": ["establishments", "4"]}
+					}
 				},
 				{
-					"name": "Update Establishment",
+					"name": "Get Establishment #5 - Cinema",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"name\": \"Tony's Restaurant - Updated\",\n  \"isAcceptingCustomers\": false\n}"
-						},
-						"url": {
-							"raw": "{{baseUrl}}/establishments/{{establishmentId}}",
-							"host": ["{{baseUrl}}"],
-							"path": ["establishments", "{{establishmentId}}"]
-						},
-						"description": "Update establishment details (Merchant)"
-					},
-					"response": []
+						"auth": {"type": "bearer","bearer": [{"key": "token","value": "{{token}}","type": "string"}]},
+						"method": "GET",
+						"url": {"raw": "{{baseUrl}}/establishments/5","host": ["{{baseUrl}}"],"path": ["establishments", "5"]}
+					}
 				},
 				{
-					"name": "Delete Establishment",
+					"name": "Filter by Category",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/establishments/{{establishmentId}}",
-							"host": ["{{baseUrl}}"],
-							"path": ["establishments", "{{establishmentId}}"]
-						},
-						"description": "Delete an establishment (Merchant)"
-					},
-					"response": []
+						"auth": {"type": "bearer","bearer": [{"key": "token","value": "{{token}}","type": "string"}]},
+						"method": "GET",
+						"url": {"raw": "{{baseUrl}}/establishments?category=restaurant","host": ["{{baseUrl}}"],"path": ["establishments"],"query": [{"key": "category","value": "restaurant"}]}
+					}
+				},
+				{
+					"name": "Filter by City",
+					"request": {
+						"auth": {"type": "bearer","bearer": [{"key": "token","value": "{{token}}","type": "string"}]},
+						"method": "GET",
+						"url": {"raw": "{{baseUrl}}/establishments?city=São Paulo","host": ["{{baseUrl}}"],"path": ["establishments"],"query": [{"key": "city","value": "São Paulo"}]}
+					}
 				}
 			]
 		},
 		{
-			"name": "4. Queue Management",
+			"name": "4. FAVORITES",
 			"item": [
 				{
-					"name": "Join Queue",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"if (pm.response.code === 201) {",
-									"    var jsonData = pm.response.json();",
-									"    pm.environment.set(\"queueId\", jsonData.id);",
-									"    console.log(\"✓ Joined queue. Ticket: \" + jsonData.ticketNumber);",
-									"}"
-								]
-							}
-						}
-					],
+					"name": "Get My Favorites",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"establishmentId\": 1,\n  \"partySize\": 2,\n  \"notes\": \"Window seat preferred\"\n}"
-						},
-						"url": {
-							"raw": "{{baseUrl}}/queues/join",
-							"host": ["{{baseUrl}}"],
-							"path": ["queues", "join"]
-						},
-						"description": "Join a queue. Returns ticket details with position."
-					},
-					"response": []
+						"auth": {"type": "bearer","bearer": [{"key": "token","value": "{{token}}","type": "string"}]},
+						"method": "GET",
+						"url": {"raw": "{{baseUrl}}/favorites","host": ["{{baseUrl}}"],"path": ["favorites"]}
+					}
 				},
+				{
+					"name": "Check if Favorited - Est #1",
+					"request": {
+						"auth": {"type": "bearer","bearer": [{"key": "token","value": "{{token}}","type": "string"}]},
+						"method": "GET",
+						"url": {"raw": "{{baseUrl}}/favorites/check/1","host": ["{{baseUrl}}"],"path": ["favorites", "check", "1"]}
+					}
+				},
+				{
+					"name": "Check if Favorited - Est #3",
+					"request": {
+						"auth": {"type": "bearer","bearer": [{"key": "token","value": "{{token}}","type": "string"}]},
+						"method": "GET",
+						"url": {"raw": "{{baseUrl}}/favorites/check/3","host": ["{{baseUrl}}"],"path": ["favorites", "check", "3"]}
+					}
+				},
+				{
+					"name": "Add to Favorites",
+					"request": {
+						"auth": {"type": "bearer","bearer": [{"key": "token","value": "{{token}}","type": "string"}]},
+						"method": "POST",
+						"header": [{"key": "Content-Type","value": "application/json"}],
+						"body": {"mode": "raw","raw": "{\n  \"establishmentId\": 3\n}"},
+						"url": {"raw": "{{baseUrl}}/favorites","host": ["{{baseUrl}}"],"path": ["favorites"]}
+					}
+				},
+				{
+					"name": "Remove from Favorites",
+					"request": {
+						"auth": {"type": "bearer","bearer": [{"key": "token","value": "{{token}}","type": "string"}]},
+						"method": "DELETE",
+						"url": {"raw": "{{baseUrl}}/favorites/1","host": ["{{baseUrl}}"],"path": ["favorites", "1"]}
+					}
+				}
+			]
+		},
+		{
+			"name": "5. NOTIFICATIONS",
+			"item": [
+				{
+					"name": "Get All Notifications",
+					"request": {
+						"auth": {"type": "bearer","bearer": [{"key": "token","value": "{{token}}","type": "string"}]},
+						"method": "GET",
+						"url": {"raw": "{{baseUrl}}/notifications","host": ["{{baseUrl}}"],"path": ["notifications"]}
+					}
+				},
+				{
+					"name": "Get Unread Only",
+					"request": {
+						"auth": {"type": "bearer","bearer": [{"key": "token","value": "{{token}}","type": "string"}]},
+						"method": "GET",
+						"url": {"raw": "{{baseUrl}}/notifications?unread=true","host": ["{{baseUrl}}"],"path": ["notifications"],"query": [{"key": "unread","value": "true"}]}
+					}
+				},
+				{
+					"name": "Get Unread Count",
+					"request": {
+						"auth": {"type": "bearer","bearer": [{"key": "token","value": "{{token}}","type": "string"}]},
+						"method": "GET",
+						"url": {"raw": "{{baseUrl}}/notifications/unread/count","host": ["{{baseUrl}}"],"path": ["notifications", "unread", "count"]}
+					}
+				},
+				{
+					"name": "Mark as Read",
+					"request": {
+						"auth": {"type": "bearer","bearer": [{"key": "token","value": "{{token}}","type": "string"}]},
+						"method": "PUT",
+						"url": {"raw": "{{baseUrl}}/notifications/1/read","host": ["{{baseUrl}}"],"path": ["notifications", "1", "read"]}
+					}
+				},
+				{
+					"name": "Mark All as Read",
+					"request": {
+						"auth": {"type": "bearer","bearer": [{"key": "token","value": "{{token}}","type": "string"}]},
+						"method": "PUT",
+						"url": {"raw": "{{baseUrl}}/notifications/read-all","host": ["{{baseUrl}}"],"path": ["notifications", "read-all"]}
+					}
+				},
+				{
+					"name": "Delete Notification",
+					"request": {
+						"auth": {"type": "bearer","bearer": [{"key": "token","value": "{{token}}","type": "string"}]},
+						"method": "DELETE",
+						"url": {"raw": "{{baseUrl}}/notifications/1","host": ["{{baseUrl}}"],"path": ["notifications", "1"]}
+					}
+				}
+			]
+		},
+		{
+			"name": "6. QUEUES",
+			"item": [
 				{
 					"name": "Get My Queues",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
+						"auth": {"type": "bearer","bearer": [{"key": "token","value": "{{token}}","type": "string"}]},
 						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/queues/my-queues",
-							"host": ["{{baseUrl}}"],
-							"path": ["queues", "my-queues"]
-						},
-						"description": "Get all my queue entries"
-					},
-					"response": []
+						"url": {"raw": "{{baseUrl}}/queues/my-queues","host": ["{{baseUrl}}"],"path": ["queues", "my-queues"]}
+					}
 				},
 				{
-					"name": "Get Queue by ID",
+					"name": "Get Queue #1",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
+						"auth": {"type": "bearer","bearer": [{"key": "token","value": "{{token}}","type": "string"}]},
 						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/queues/{{queueId}}",
-							"host": ["{{baseUrl}}"],
-							"path": ["queues", "{{queueId}}"]
-						},
-						"description": "Get queue status and position details"
-					},
-					"response": []
+						"url": {"raw": "{{baseUrl}}/queues/1","host": ["{{baseUrl}}"],"path": ["queues", "1"]}
+					}
+				},
+				{
+					"name": "Get Queue #2",
+					"request": {
+						"auth": {"type": "bearer","bearer": [{"key": "token","value": "{{token}}","type": "string"}]},
+						"method": "GET",
+						"url": {"raw": "{{baseUrl}}/queues/2","host": ["{{baseUrl}}"],"path": ["queues", "2"]}
+					}
 				},
 				{
 					"name": "Get Establishment Queue",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
+						"auth": {"type": "bearer","bearer": [{"key": "token","value": "{{token}}","type": "string"}]},
 						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/queues/establishment/{{establishmentId}}",
-							"host": ["{{baseUrl}}"],
-							"path": ["queues", "establishment", "{{establishmentId}}"]
-						},
-						"description": "Get all customers waiting in an establishment's queue"
-					},
-					"response": []
+						"url": {"raw": "{{baseUrl}}/queues/establishment/1","host": ["{{baseUrl}}"],"path": ["queues", "establishment", "1"]}
+					}
 				},
 				{
-					"name": "Cancel Queue Entry",
+					"name": "Join Queue",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "PUT",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/queues/{{queueId}}/cancel",
-							"host": ["{{baseUrl}}"],
-							"path": ["queues", "{{queueId}}", "cancel"]
-						},
-						"description": "Cancel your queue entry"
-					},
-					"response": []
+						"auth": {"type": "bearer","bearer": [{"key": "token","value": "{{token}}","type": "string"}]},
+						"method": "POST",
+						"header": [{"key": "Content-Type","value": "application/json"}],
+						"body": {"mode": "raw","raw": "{\n  \"establishmentId\": 2,\n  \"partySize\": 2,\n  \"notes\": \"Window seat\"\n}"},
+						"url": {"raw": "{{baseUrl}}/queues/join","host": ["{{baseUrl}}"],"path": ["queues", "join"]}
+					}
 				},
 				{
-					"name": "Call Next Customer",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"if (pm.response.code === 200) {",
-									"    var jsonData = pm.response.json();",
-									"    console.log(\"✓ Called next customer: \" + jsonData.ticketNumber);",
-									"}"
-								]
-							}
-						}
-					],
+					"name": "Cancel Queue",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
+						"auth": {"type": "bearer","bearer": [{"key": "token","value": "{{token}}","type": "string"}]},
 						"method": "PUT",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/queues/establishment/{{establishmentId}}/call-next",
-							"host": ["{{baseUrl}}"],
-							"path": ["queues", "establishment", "{{establishmentId}}", "call-next"]
-						},
-						"description": "Call the next customer in queue (Merchant only)"
-					},
-					"response": []
+						"url": {"raw": "{{baseUrl}}/queues/1/cancel","host": ["{{baseUrl}}"],"path": ["queues", "1", "cancel"]}
+					}
 				},
 				{
-					"name": "Mark Queue as Finished",
+					"name": "Call Next (Merchant)",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
+						"auth": {"type": "bearer","bearer": [{"key": "token","value": "{{token}}","type": "string"}]},
 						"method": "PUT",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/queues/{{queueId}}/finish",
-							"host": ["{{baseUrl}}"],
-							"path": ["queues", "{{queueId}}", "finish"]
-						},
-						"description": "Mark queue entry as finished (Merchant only)"
-					},
-					"response": []
+						"url": {"raw": "{{baseUrl}}/queues/establishment/1/call-next","host": ["{{baseUrl}}"],"path": ["queues", "establishment", "1", "call-next"]}
+					}
+				},
+				{
+					"name": "Finish Service (Merchant)",
+					"request": {
+						"auth": {"type": "bearer","bearer": [{"key": "token","value": "{{token}}","type": "string"}]},
+						"method": "PUT",
+						"url": {"raw": "{{baseUrl}}/queues/1/finish","host": ["{{baseUrl}}"],"path": ["queues", "1", "finish"]}
+					}
 				}
 			]
 		}

@@ -5,12 +5,53 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c72f4cc1-4d1f-48a8-a8e7-68f92a71b883" name="Changes" comment="initialize project structure with essential configurations and entities">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/filae/api/GenerateHashes.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/db/migration/V7__Insert_test_data.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/filae/api/application/controller/FavoriteController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/filae/api/application/controller/HealthController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/filae/api/application/controller/NotificationController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/filae/api/application/controller/UserController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/filae/api/application/dto/establishment/EstablishmentResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/filae/api/application/dto/favorite/AddFavoriteRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/filae/api/application/dto/favorite/FavoriteResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/filae/api/application/dto/notification/NotificationResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/filae/api/application/dto/queue/JoinQueueRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/filae/api/application/dto/queue/QueueResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/filae/api/application/dto/system/SystemStatsResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/filae/api/application/dto/user/UpdateUserRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/filae/api/application/dto/user/UserResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/filae/api/application/mapper/EstablishmentMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/filae/api/application/mapper/FavoriteMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/filae/api/application/mapper/NotificationMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/filae/api/application/mapper/QueueMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/filae/api/application/mapper/UserMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/filae/api/domain/entity/Favorite.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/filae/api/domain/entity/Notification.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/filae/api/domain/repository/FavoriteRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/filae/api/domain/repository/NotificationRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/filae/api/domain/service/FavoriteService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/filae/api/domain/service/NotificationService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/db/migration/V1__Complete_database_schema.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/Filae_API_Postman_Collection.json" beforeDir="false" afterPath="$PROJECT_DIR$/docs/Filae_API_Postman_Collection.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/filae/api/application/dto/auth/LoginResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/filae/api/application/dto/auth/LoginResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/filae/api/infrastructure/security/JwtTokenProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/filae/api/infrastructure/security/JwtTokenProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/GAP_ANALYSIS.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/filae/api/application/controller/EstablishmentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/filae/api/application/controller/EstablishmentController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/filae/api/application/controller/HealthCheckController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/filae/api/application/controller/QueueController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/filae/api/application/controller/QueueController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/filae/api/domain/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/filae/api/domain/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/filae/api/infrastructure/security/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/filae/api/infrastructure/security/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/db/migration/V1__Create_users_table.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/db/migration/V2__Create_establishments_table.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/db/migration/V3__Create_queues_table.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/db/migration/V4__Create_favorites_table.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/db/migration/V5__Create_notifications_table.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/db/migration/V6__Create_opening_hours_table.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/db/migration/V7__Insert_test_data.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/db/migration/V1__Create_users_table.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/db/migration/V2__Create_establishments_table.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/db/migration/V3__Create_queues_table.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/db/migration/V4__Create_favorites_table.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/db/migration/V5__Create_notifications_table.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/db/migration/V6__Create_opening_hours_table.sql" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,7 +66,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="initial-commit" />
+        <entry key="$PROJECT_DIR$" value="main" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -61,7 +102,7 @@
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
-    "git-widget-placeholder": "feature/sprint1-implementation",
+    "git-widget-placeholder": "feature/sprint2-implementation",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
     "node.js.detected.package.eslint": "true",
@@ -78,7 +119,7 @@
       <recent name="C:\Users\Vinicius\IdeaProjects\filae-api\docs" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.Filae API Config">
     <configuration name="Filae API Config" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="com.filae.api.FilaeApiApplication" />
       <module name="filae-api" />
@@ -96,6 +137,17 @@
       <option name="filePath" />
       <method v="2" />
     </configuration>
+    <configuration name="FilaeApiApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="filae-api" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.filae.api.FilaeApiApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.Filae API Config" />
+      <item itemvalue="Spring Boot.FilaeApiApplication" />
+    </list>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>

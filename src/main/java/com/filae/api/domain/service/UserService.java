@@ -61,6 +61,18 @@ public class UserService {
     }
 
     /**
+     * Get user by email (throws exception if not found)
+     */
+    @Transactional(readOnly = true)
+    public User getUserByEmail(String email) {
+        LogHelper.logMethodEntry(log, "getUserByEmail", email);
+        User user = userRepository.findByEmail(email)
+            .orElseThrow(() -> new IllegalArgumentException("User not found with email: " + email));
+        LogHelper.logMethodExit(log, "getUserByEmail", user.getId());
+        return user;
+    }
+
+    /**
      * Find user by ID
      */
     @Transactional(readOnly = true)
