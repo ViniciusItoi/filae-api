@@ -17,6 +17,7 @@ import java.util.Optional;
 @Repository
 public interface EstablishmentRepository extends JpaRepository<Establishment, Long> {
 
+    // Paginated methods
     Page<Establishment> findByCategory(String category, Pageable pageable);
 
     Page<Establishment> findByCity(String city, Pageable pageable);
@@ -28,6 +29,10 @@ public interface EstablishmentRepository extends JpaRepository<Establishment, Lo
            "LOWER(e.description) LIKE LOWER(CONCAT('%', :query, '%'))")
     Page<Establishment> search(@Param("query") String query, Pageable pageable);
 
+    // Non-paginated methods for simple queries
+    List<Establishment> findByCategory(String category);
+
+    List<Establishment> findByCity(String city);
+
     List<Establishment> findByQueueEnabledTrueAndIsAcceptingCustomersTrue();
 }
-

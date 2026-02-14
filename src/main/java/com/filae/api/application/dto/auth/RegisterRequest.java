@@ -1,5 +1,6 @@
 package com.filae.api.application.dto.auth;
 
+import com.filae.api.domain.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -34,5 +35,15 @@ public class RegisterRequest {
     private String phone;
 
     private String userType = "CUSTOMER";
-}
 
+    /**
+     * Get user type as enum
+     */
+    public User.UserType getUserType() {
+        try {
+            return User.UserType.valueOf(userType.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            return User.UserType.CUSTOMER;
+        }
+    }
+}
