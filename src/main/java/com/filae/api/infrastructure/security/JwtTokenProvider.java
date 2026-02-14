@@ -89,4 +89,9 @@ public class JwtTokenProvider {
     /**
      * Get signing key from secret
      */
-    private
+    private SecretKey getSigningKey() {
+        byte[] keyBytes = jwtSecret.getBytes(StandardCharsets.UTF_8);
+        return Keys.hmacShaKeyFor(keyBytes);
+    }
+}
+
