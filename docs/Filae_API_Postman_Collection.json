@@ -1,0 +1,669 @@
+{
+	"info": {
+		"_postman_id": "filae-api-collection-2026",
+		"name": "Filae API - Queue Management System",
+		"description": "Complete REST API collection for Filae - Virtual Queue Management System\n\nBase URL: http://localhost:8080/api\n\nAuthentication: Most endpoints require JWT Bearer token\n\n**Workflow:**\n1. Register a user\n2. Login to get JWT token\n3. Use token in Authorization header for protected endpoints",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"version": "1.0.0"
+	},
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080/api",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "",
+			"type": "string"
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"item": [
+		{
+			"name": "Health Check",
+			"item": [
+				{
+					"name": "Health Check",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/health",
+							"host": ["{{baseUrl}}"],
+							"path": ["health"]
+						},
+						"description": "Check if the API is running and healthy"
+					},
+					"response": []
+				}
+			],
+			"description": "Health check endpoints"
+		},
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Register Customer",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200 || pm.response.code === 201) {",
+									"    console.log('User registered successfully');",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"John Doe\",\n  \"email\": \"john.doe@example.com\",\n  \"password\": \"SecurePass123!\",\n  \"phone\": \"+1234567890\",\n  \"userType\": \"CUSTOMER\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/register",
+							"host": ["{{baseUrl}}"],
+							"path": ["auth", "register"]
+						},
+						"description": "Register a new customer account"
+					},
+					"response": []
+				},
+				{
+					"name": "Register Merchant",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Restaurant Owner\",\n  \"email\": \"owner@restaurant.com\",\n  \"password\": \"SecurePass123!\",\n  \"phone\": \"+1234567890\",\n  \"userType\": \"MERCHANT\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/register",
+							"host": ["{{baseUrl}}"],
+							"path": ["auth", "register"]
+						},
+						"description": "Register a new merchant account"
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    var jsonData = pm.response.json();",
+									"    pm.collectionVariables.set('token', jsonData.token);",
+									"    console.log('Token saved: ' + jsonData.token);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"john.doe@example.com\",\n  \"password\": \"SecurePass123!\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/login",
+							"host": ["{{baseUrl}}"],
+							"path": ["auth", "login"]
+						},
+						"description": "Login and receive JWT token (automatically saved to collection variable)"
+					},
+					"response": []
+				}
+			],
+			"description": "Authentication and authorization endpoints"
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Get User Profile",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/users/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["users", "1"]
+						},
+						"description": "Get user profile by ID"
+					},
+					"response": []
+				},
+				{
+					"name": "Update User Profile",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"John Updated\",\n  \"phone\": \"+1987654321\",\n  \"profilePictureUrl\": \"https://example.com/avatar.jpg\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["users", "1"]
+						},
+						"description": "Update user profile information"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User Account",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/users/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["users", "1"]
+						},
+						"description": "Delete user account"
+					},
+					"response": []
+				}
+			],
+			"description": "User management endpoints"
+		},
+		{
+			"name": "Establishments",
+			"item": [
+				{
+					"name": "List All Establishments",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/establishments",
+							"host": ["{{baseUrl}}"],
+							"path": ["establishments"]
+						},
+						"description": "Get all establishments"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Establishment by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/establishments/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["establishments", "1"]
+						},
+						"description": "Get establishment details by ID"
+					},
+					"response": []
+				},
+				{
+					"name": "Search by Category",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/establishments?category=restaurant",
+							"host": ["{{baseUrl}}"],
+							"path": ["establishments"],
+							"query": [
+								{
+									"key": "category",
+									"value": "restaurant"
+								}
+							]
+						},
+						"description": "Search establishments by category"
+					},
+					"response": []
+				},
+				{
+					"name": "Search by City",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/establishments?city=São Paulo",
+							"host": ["{{baseUrl}}"],
+							"path": ["establishments"],
+							"query": [
+								{
+									"key": "city",
+									"value": "São Paulo"
+								}
+							]
+						},
+						"description": "Search establishments by city"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Establishment",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Amazing Restaurant\",\n  \"description\": \"Best food in town\",\n  \"category\": \"restaurant\",\n  \"address\": \"123 Main Street\",\n  \"city\": \"São Paulo\",\n  \"state\": \"SP\",\n  \"zipCode\": \"01234-567\",\n  \"latitude\": -23.550520,\n  \"longitude\": -46.633308,\n  \"phoneNumber\": \"+5511987654321\",\n  \"email\": \"contact@amazing.com\",\n  \"website\": \"https://amazing-restaurant.com\",\n  \"photoUrl\": \"https://example.com/restaurant.jpg\",\n  \"queueEnabled\": true,\n  \"isAcceptingCustomers\": true\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/establishments",
+							"host": ["{{baseUrl}}"],
+							"path": ["establishments"]
+						},
+						"description": "Create a new establishment (Merchant only)"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Establishment",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Amazing Restaurant Updated\",\n  \"description\": \"Even better food!\",\n  \"isAcceptingCustomers\": true,\n  \"queueEnabled\": true\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/establishments/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["establishments", "1"]
+						},
+						"description": "Update establishment information (Merchant only)"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Establishment",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/establishments/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["establishments", "1"]
+						},
+						"description": "Delete establishment (Merchant only)"
+					},
+					"response": []
+				}
+			],
+			"description": "Establishment management endpoints"
+		},
+		{
+			"name": "Queues",
+			"item": [
+				{
+					"name": "Join Queue",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"establishmentId\": 1,\n  \"partySize\": 2,\n  \"notes\": \"Window seat preferred\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/queues/join",
+							"host": ["{{baseUrl}}"],
+							"path": ["queues", "join"]
+						},
+						"description": "Join an establishment's queue"
+					},
+					"response": []
+				},
+				{
+					"name": "Get My Queues",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/queues/my-queues",
+							"host": ["{{baseUrl}}"],
+							"path": ["queues", "my-queues"]
+						},
+						"description": "Get all queue entries for current user"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Queue Details",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/queues/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["queues", "1"]
+						},
+						"description": "Get specific queue entry details"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Establishment Queue",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/queues/establishment/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["queues", "establishment", "1"]
+						},
+						"description": "Get all queue entries for an establishment"
+					},
+					"response": []
+				},
+				{
+					"name": "Cancel Queue Entry",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/queues/1/cancel",
+							"host": ["{{baseUrl}}"],
+							"path": ["queues", "1", "cancel"]
+						},
+						"description": "Cancel queue entry (Customer)"
+					},
+					"response": []
+				},
+				{
+					"name": "Call Next in Queue",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/queues/1/call",
+							"host": ["{{baseUrl}}"],
+							"path": ["queues", "1", "call"]
+						},
+						"description": "Call next customer in queue (Merchant only)"
+					},
+					"response": []
+				},
+				{
+					"name": "Finish Queue Entry",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/queues/1/finish",
+							"host": ["{{baseUrl}}"],
+							"path": ["queues", "1", "finish"]
+						},
+						"description": "Mark queue entry as finished (Merchant only)"
+					},
+					"response": []
+				}
+			],
+			"description": "Queue management endpoints"
+		},
+		{
+			"name": "Favorites",
+			"item": [
+				{
+					"name": "Add to Favorites",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"establishmentId\": 1\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/favorites",
+							"host": ["{{baseUrl}}"],
+							"path": ["favorites"]
+						},
+						"description": "Add establishment to favorites"
+					},
+					"response": []
+				},
+				{
+					"name": "Get My Favorites",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/favorites",
+							"host": ["{{baseUrl}}"],
+							"path": ["favorites"]
+						},
+						"description": "Get user's favorite establishments"
+					},
+					"response": []
+				},
+				{
+					"name": "Remove from Favorites",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/favorites/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["favorites", "1"]
+						},
+						"description": "Remove establishment from favorites"
+					},
+					"response": []
+				}
+			],
+			"description": "Favorites management endpoints"
+		},
+		{
+			"name": "Notifications",
+			"item": [
+				{
+					"name": "Get My Notifications",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/notifications",
+							"host": ["{{baseUrl}}"],
+							"path": ["notifications"]
+						},
+						"description": "Get all notifications for current user"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Unread Notifications",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/notifications?unread=true",
+							"host": ["{{baseUrl}}"],
+							"path": ["notifications"],
+							"query": [
+								{
+									"key": "unread",
+									"value": "true"
+								}
+							]
+						},
+						"description": "Get only unread notifications"
+					},
+					"response": []
+				},
+				{
+					"name": "Mark as Read",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/notifications/1/read",
+							"host": ["{{baseUrl}}"],
+							"path": ["notifications", "1", "read"]
+						},
+						"description": "Mark specific notification as read"
+					},
+					"response": []
+				},
+				{
+					"name": "Mark All as Read",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/notifications/read-all",
+							"host": ["{{baseUrl}}"],
+							"path": ["notifications", "read-all"]
+						},
+						"description": "Mark all notifications as read"
+					},
+					"response": []
+				}
+			],
+			"description": "Notification endpoints"
+		},
+		{
+			"name": "Opening Hours",
+			"item": [
+				{
+					"name": "Get Opening Hours",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/opening-hours/establishment/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["opening-hours", "establishment", "1"]
+						},
+						"description": "Get opening hours for an establishment"
+					},
+					"response": []
+				},
+				{
+					"name": "Set Opening Hours",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"establishmentId\": 1,\n  \"dayOfWeek\": \"MONDAY\",\n  \"openTime\": \"09:00\",\n  \"closeTime\": \"18:00\",\n  \"isClosed\": false\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/opening-hours",
+							"host": ["{{baseUrl}}"],
+							"path": ["opening-hours"]
+						},
+						"description": "Set opening hours for a day (Merchant only)"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Opening Hours",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"openTime\": \"08:00\",\n  \"closeTime\": \"20:00\",\n  \"isClosed\": false\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/opening-hours/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["opening-hours", "1"]
+						},
+						"description": "Update opening hours (Merchant only)"
+					},
+					"response": []
+				}
+			],
+			"description": "Opening hours management endpoints"
+		}
+	]
+}
+
