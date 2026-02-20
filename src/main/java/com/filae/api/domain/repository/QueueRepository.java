@@ -40,4 +40,17 @@ public interface QueueRepository extends JpaRepository<Queue, Long> {
     List<Queue> findActiveQueuesForEstablishment(@Param("establishmentId") Long establishmentId);
 
     boolean existsByUserIdAndEstablishmentIdAndStatusIn(Long userId, Long establishmentId, List<QueueStatus> statuses);
+
+    // Merchant-specific queries
+    List<Queue> findByMerchantIdOrderByJoinedAtDesc(Long merchantId);
+
+    List<Queue> findByMerchantIdAndStatusOrderByPositionAsc(Long merchantId, QueueStatus status);
+
+    List<Queue> findByMerchantIdAndEstablishmentIdOrderByPositionAsc(Long merchantId, Long establishmentId);
+
+    @Query("SELECT q FROM Queue q WHERE q.merchantId = :merchantId AND q.status IN ('WAITING', 'CALLED') ORDER BY q.position ASC")
+    List<Queue> findActiveMerchantQueues(@Param("merchantId") Long merchantId);
+
+    @Query("SELECT COUNT(q) FROM Queue q WHERE q.merchantId = :merchantId AND q.status = :status")
+    Integer countMerchantQueuesByStatus(@Param("merchantId") Long merchantId, @Param("status") QueueStatus status);
 }
