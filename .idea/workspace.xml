@@ -5,53 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c72f4cc1-4d1f-48a8-a8e7-68f92a71b883" name="Changes" comment="initialize project structure with essential configurations and entities">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/filae/api/application/controller/FavoriteController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/filae/api/application/controller/HealthController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/filae/api/application/controller/NotificationController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/filae/api/application/controller/UserController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/filae/api/application/dto/establishment/EstablishmentResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/filae/api/application/dto/favorite/AddFavoriteRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/filae/api/application/dto/favorite/FavoriteResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/filae/api/application/dto/notification/NotificationResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/filae/api/application/dto/queue/JoinQueueRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/filae/api/application/dto/queue/QueueResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/filae/api/application/dto/system/SystemStatsResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/filae/api/application/dto/user/UpdateUserRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/filae/api/application/dto/user/UserResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/filae/api/application/mapper/EstablishmentMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/filae/api/application/mapper/FavoriteMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/filae/api/application/mapper/NotificationMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/filae/api/application/mapper/QueueMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/filae/api/application/mapper/UserMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/filae/api/domain/entity/Favorite.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/filae/api/domain/entity/Notification.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/filae/api/domain/repository/FavoriteRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/filae/api/domain/repository/NotificationRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/filae/api/domain/service/FavoriteService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/filae/api/domain/service/NotificationService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/db/migration/V1__Complete_database_schema.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/db/migration/V2__Add_merchant_id_to_queues.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/Filae_API_Postman_Collection.json" beforeDir="false" afterPath="$PROJECT_DIR$/docs/Filae_API_Postman_Collection.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/GAP_ANALYSIS.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/filae/api/application/controller/EstablishmentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/filae/api/application/controller/EstablishmentController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/filae/api/application/controller/HealthCheckController.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/filae/api/application/controller/QueueController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/filae/api/application/controller/QueueController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/filae/api/domain/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/filae/api/domain/service/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/filae/api/infrastructure/security/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/filae/api/infrastructure/security/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/db/migration/V1__Create_users_table.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/db/migration/V2__Create_establishments_table.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/db/migration/V3__Create_queues_table.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/db/migration/V4__Create_favorites_table.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/db/migration/V5__Create_notifications_table.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/db/migration/V6__Create_opening_hours_table.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/db/migration/V7__Insert_test_data.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/db/migration/V1__Create_users_table.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/db/migration/V2__Create_establishments_table.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/db/migration/V3__Create_queues_table.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/db/migration/V4__Create_favorites_table.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/db/migration/V5__Create_notifications_table.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/db/migration/V6__Create_opening_hours_table.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/filae/api/domain/entity/Queue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/filae/api/domain/entity/Queue.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/filae/api/domain/repository/QueueRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/filae/api/domain/repository/QueueRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/filae/api/domain/service/QueueService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/filae/api/domain/service/QueueService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -89,31 +50,34 @@
   &quot;associatedIndex&quot;: 7
 }</component>
   <component name="ProjectId" id="39ct9VMI1HaFAFZZZgLXmPNVS07" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.Filae API Config.executor": "Debug",
-    "Maven. [clean,install].executor": "Run",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
-    "git-widget-placeholder": "feature/sprint2-implementation",
-    "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "reference.projectsettings.compiler.javacompiler",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.Filae API Config.executor&quot;: &quot;Debug&quot;,
+    &quot;Maven. [clean,install].executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;feature/sprint2-implementation&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.projectsettings.compiler.javacompiler&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Vinicius\IdeaProjects\filae-api\docs" />
@@ -188,13 +152,6 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="initialize project structure with essential configurations and entities" />
     <option name="LAST_COMMIT_MESSAGE" value="initialize project structure with essential configurations and entities" />
-  </component>
-  <component name="XDebuggerManager">
-    <watches-manager>
-      <configuration name="Application">
-        <watch canBePaused="false" expression="" />
-      </configuration>
-    </watches-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

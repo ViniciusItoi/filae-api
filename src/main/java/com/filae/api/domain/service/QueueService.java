@@ -88,6 +88,7 @@ public class QueueService {
         Queue queue = Queue.builder()
                 .ticketNumber(ticketNumber)
                 .establishment(establishment)
+                .merchantId(establishment.getMerchant().getId())
                 .user(user)
                 .partySize(partySize != null ? partySize : 1)
                 .notes(notes)
@@ -243,6 +244,59 @@ public class QueueService {
         String prefix = establishment.getName().substring(0, Math.min(2, establishment.getName().length())).toUpperCase();
         String suffix = UUID.randomUUID().toString().substring(0, 4).toUpperCase();
         return prefix + "-" + suffix;
+    }
+
+    /**
+     * Get all queues for a merchant (sorted by joined date, descending)
+     */
+    @Transactional(readOnly = true)
+    public List<Queue> getMerchantAllQueues(Long merchantId) {
+        LogHelper.logMethodEntry(log, "getMerchantAllQueues", merchantId);
+
+        List<Queue> queues = queueRepository.findByMerchantIdOrderByJoinedAtDesc(merchantId);
+
+        LogHelper.logMethodExit(log, "getMerchantAllQueues", queues.size() + " queues found");
+        return queues;
+    }
+
+    /**
+     * Get active queues for a merchant (WAITING and CALLED status)
+     */
+    @Transactional(readOnly = true)
+    public List<Queue> getMerchantActiveQueues(Long merchantId) {
+        LogHelper.logMethodEntry(log, "getMerchantActiveQueues", merchantId);
+
+        List<Queue> queues = queueRepository.findActiveMerchantQueues(merchantId);
+
+        LogHelper.logMethodExit(log, "getMerchantActiveQueues", queues.size() + " active queues");
+        return queues;
+    }
+
+    /**
+     * Get queues for a specific merchant establishment
+     */
+    @Transactional(readOnly = true)
+    public List<Queue> getMerchantEstablishmentQueues(Long merchantId, Long establishmentId) {
+        LogHelper.logMethodEntry(log, "getMerchantEstablishmentQueues", merchantId, establishmentId);
+
+        List<Queue> queues = queueRepository.findByMerchantIdAndEstablishmentIdOrderByPositionAsc(
+                merchantId, establishmentId);
+
+        LogHelper.logMethodExit(log, "getMerchantEstablishmentQueues", queues.size() + " queues");
+        return queues;
+    }
+
+    /**
+     * Get queue count for merchant by status
+     */
+    @Transactional(readOnly = true)
+    public Integer getMerchantQueueCount(Long merchantId, Queue.QueueStatus status) {
+        LogHelper.logMethodEntry(log, "getMerchantQueueCount", merchantId, status);
+
+        Integer count = queueRepository.countMerchantQueuesByStatus(merchantId, status);
+
+        LogHelper.logMethodExit(log, "getMerchantQueueCount", count);
+        return count != null ? count : 0;
     }
 }
 

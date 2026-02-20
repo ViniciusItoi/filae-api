@@ -30,6 +30,9 @@ public class Queue {
     @JoinColumn(name = "establishment_id", nullable = false)
     private Establishment establishment;
 
+    @Column(name = "merchant_id", nullable = false)
+    private Long merchantId;
+
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;

@@ -156,5 +156,84 @@ public class QueueController {
         LogHelper.logMethodExit(log, "finishQueue");
         return ResponseEntity.noContent().build();
     }
+
+    /**
+     * Get all queues for merchant
+     */
+    @GetMapping("/merchant/all")
+    public ResponseEntity<List<QueueResponse>> getMerchantAllQueues() {
+        Long merchantId = getAuthenticatedUserId();
+
+        LogHelper.logMethodEntry(log, "getMerchantAllQueues", merchantId);
+
+        List<QueueResponse> queues = queueService.getMerchantAllQueues(merchantId)
+            .stream()
+            .map(queueMapper::toResponse)
+            .collect(Collectors.toList());
+
+        LogHelper.logMethodExit(log, "getMerchantAllQueues", queues.size() + " queues");
+        return ResponseEntity.ok(queues);
+    }
+
+    /**
+     * Get active queues for merchant (WAITING and CALLED status)
+     */
+    @GetMapping("/merchant/active")
+    public ResponseEntity<List<QueueResponse>> getMerchantActiveQueues() {
+        Long merchantId = getAuthenticatedUserId();
+
+        LogHelper.logMethodEntry(log, "getMerchantActiveQueues", merchantId);
+
+        List<QueueResponse> queues = queueService.getMerchantActiveQueues(merchantId)
+            .stream()
+            .map(queueMapper::toResponse)
+            .collect(Collectors.toList());
+
+        LogHelper.logMethodExit(log, "getMerchantActiveQueues", queues.size() + " active queues");
+        return ResponseEntity.ok(queues);
+    }
+
+    /**
+     * Get queues for a specific merchant establishment
+     */
+    @GetMapping("/merchant/establishment/{establishmentId}")
+    public ResponseEntity<List<QueueResponse>> getMerchantEstablishmentQueues(@PathVariable Long establishmentId) {
+        Long merchantId = getAuthenticatedUserId();
+
+        LogHelper.logMethodEntry(log, "getMerchantEstablishmentQueues", merchantId, establishmentId);
+
+        List<QueueResponse> queues = queueService.getMerchantEstablishmentQueues(merchantId, establishmentId)
+            .stream()
+            .map(queueMapper::toResponse)
+            .collect(Collectors.toList());
+
+        LogHelper.logMethodExit(log, "getMerchantEstablishmentQueues", queues.size() + " queues");
+        return ResponseEntity.ok(queues);
+    }
+
+    /**
+     * Get queue statistics for merchant
+     */
+    @GetMapping("/merchant/stats")
+    public ResponseEntity<MerchantQueueStats> getMerchantQueueStats() {
+        Long merchantId = getAuthenticatedUserId();
+
+        LogHelper.logMethodEntry(log, "getMerchantQueueStats", merchantId);
+
+        Integer waitingCount = queueService.getMerchantQueueCount(merchantId, Queue.QueueStatus.WAITING);
+        Integer calledCount = queueService.getMerchantQueueCount(merchantId, Queue.QueueStatus.CALLED);
+        Integer finishedCount = queueService.getMerchantQueueCount(merchantId, Queue.QueueStatus.FINISHED);
+
+        MerchantQueueStats stats = new MerchantQueueStats(waitingCount, calledCount, finishedCount);
+
+        LogHelper.logMethodExit(log, "getMerchantQueueStats");
+        return ResponseEntity.ok(stats);
+    }
+
+    /**
+     * Simple DTO for merchant queue statistics
+     */
+    public record MerchantQueueStats(Integer waiting, Integer called, Integer finished) {
+    }
 }
 
