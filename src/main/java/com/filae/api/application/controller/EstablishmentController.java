@@ -1,5 +1,7 @@
 package com.filae.api.application.controller;
 
+import com.filae.api.application.dto.establishment.EstablishmentResponse;
+import com.filae.api.application.mapper.EstablishmentMapper;
 import com.filae.api.domain.entity.Establishment;
 import com.filae.api.domain.service.EstablishmentService;
 import com.filae.api.infrastructure.logging.LogHelper;
@@ -10,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Controller for establishment endpoints
@@ -21,28 +24,45 @@ public class EstablishmentController {
     private static final Logger log = LogHelper.getLogger(EstablishmentController.class);
 
     private final EstablishmentService establishmentService;
+    private final EstablishmentMapper establishmentMapper;
 
-    public EstablishmentController(EstablishmentService establishmentService) {
+    public EstablishmentController(EstablishmentService establishmentService, EstablishmentMapper establishmentMapper) {
         this.establishmentService = establishmentService;
+        this.establishmentMapper = establishmentMapper;
     }
 
     /**
-     * Get all establishments
+     * Get all establishments with optional filters
      */
     @GetMapping
-    public ResponseEntity<List<Establishment>> getAllEstablishments(
+    public ResponseEntity<List<EstablishmentResponse>> getAllEstablishments(
             @RequestParam(required = false) String category,
-            @RequestParam(required = false) String city) {
-        LogHelper.logMethodEntry(log, "getAllEstablishments", category, city);
+            @RequestParam(required = false) String city,
+            @RequestParam(required = false) String name) {
+        LogHelper.logMethodEntry(log, "getAllEstablishments", category, city, name);
 
-        List<Establishment> establishments;
+        List<EstablishmentResponse> establishments;
 
-        if (category != null && !category.isEmpty()) {
-            establishments = establishmentService.findByCategory(category);
+        if (name != null && !name.isEmpty()) {
+            establishments = establishmentService.searchByName(name)
+                .stream()
+                .map(establishmentMapper::toResponse)
+                .collect(Collectors.toList());
+        } else if (category != null && !category.isEmpty()) {
+            establishments = establishmentService.findByCategory(category)
+                .stream()
+                .map(establishmentMapper::toResponse)
+                .collect(Collectors.toList());
         } else if (city != null && !city.isEmpty()) {
-            establishments = establishmentService.findByCity(city);
+            establishments = establishmentService.findByCity(city)
+                .stream()
+                .map(establishmentMapper::toResponse)
+                .collect(Collectors.toList());
         } else {
-            establishments = establishmentService.findAll();
+            establishments = establishmentService.findAll()
+                .stream()
+                .map(establishmentMapper::toResponse)
+                .collect(Collectors.toList());
         }
 
         LogHelper.logMethodExit(log, "getAllEstablishments", establishments.size() + " found");
@@ -53,14 +73,14 @@ public class EstablishmentController {
      * Get establishment by ID
      */
     @GetMapping("/{id}")
-    public ResponseEntity<Establishment> getEstablishmentById(@PathVariable Long id) {
+    public ResponseEntity<EstablishmentResponse> getEstablishmentById(@PathVariable Long id) {
         LogHelper.logMethodEntry(log, "getEstablishmentById", id);
 
         Establishment establishment = establishmentService.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Establishment not found with id: " + id));
 
         LogHelper.logMethodExit(log, "getEstablishmentById", establishment.getName());
-        return ResponseEntity.ok(establishment);
+        return ResponseEntity.ok(establishmentMapper.toResponse(establishment));
     }
 
     /**

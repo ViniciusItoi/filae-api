@@ -70,6 +70,17 @@ public class EstablishmentService {
     }
 
     /**
+     * Search establishments by name or description
+     */
+    @Transactional(readOnly = true)
+    public List<Establishment> searchByName(String query) {
+        LogHelper.logMethodEntry(log, "searchByName", query);
+        List<Establishment> establishments = establishmentRepository.findByNameContainingIgnoreCase(query);
+        LogHelper.logMethodExit(log, "searchByName", establishments.size() + " establishments");
+        return establishments;
+    }
+
+    /**
      * Create new establishment
      */
     public Establishment createEstablishment(Establishment establishment) {
