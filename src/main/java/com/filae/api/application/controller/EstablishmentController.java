@@ -37,12 +37,18 @@ public class EstablishmentController {
     @GetMapping
     public ResponseEntity<List<EstablishmentResponse>> getAllEstablishments(
             @RequestParam(required = false) String category,
-            @RequestParam(required = false) String city) {
-        LogHelper.logMethodEntry(log, "getAllEstablishments", category, city);
+            @RequestParam(required = false) String city,
+            @RequestParam(required = false) String name) {
+        LogHelper.logMethodEntry(log, "getAllEstablishments", category, city, name);
 
         List<EstablishmentResponse> establishments;
 
-        if (category != null && !category.isEmpty()) {
+        if (name != null && !name.isEmpty()) {
+            establishments = establishmentService.searchByName(name)
+                .stream()
+                .map(establishmentMapper::toResponse)
+                .collect(Collectors.toList());
+        } else if (category != null && !category.isEmpty()) {
             establishments = establishmentService.findByCategory(category)
                 .stream()
                 .map(establishmentMapper::toResponse)

@@ -34,5 +34,7 @@ public interface EstablishmentRepository extends JpaRepository<Establishment, Lo
 
     List<Establishment> findByCity(String city);
 
+    List<Establishment> findByNameContainingIgnoreCase(String name);
+
     List<Establishment> findByQueueEnabledTrueAndIsAcceptingCustomersTrue();
 }
